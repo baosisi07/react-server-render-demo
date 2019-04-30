@@ -1,19 +1,23 @@
 // 开发环境打包服务
 const path = require('path');
 const webpack = require("webpack");
-const clientConfig = require("../build/index");
+const clientConfig = require("../build/webpack.client.conf");
 
 
 const MFS = require("memory-fs");
 const serverConfig = require("../build/webpack.server.conf");
 
-module.exports = function async (app, callback) {
+module.exports = (app, callback) => {
     let serverEntry;
     let template;
-
+    let resolve;
+    const readyPromise = new Promise(r => {
+        resolve = r
+    });
     const update = () => {
         if (serverEntry && template) {
             callback(serverEntry, template);
+            resolve();
         }
     }
     const readFile = (fs, fileName) => {
@@ -22,6 +26,7 @@ module.exports = function async (app, callback) {
     // 修改入口文件，增加热更新文件
     clientConfig.entry.app = ["webpack-hot-middleware/client", clientConfig.entry.app];
     clientConfig.output.filename = "dist/js/[name].[hash:8].js";
+    clientConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
     // 客户端打包
     const clientCompiler = webpack(clientConfig);
     const devMiddleware = require("koa-webpack-dev-middleware")(clientCompiler, {
@@ -71,4 +76,6 @@ module.exports = function async (app, callback) {
         serverEntry = m.exports;
         update();
     });
+
+    return readyPromise;
 }

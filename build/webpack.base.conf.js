@@ -4,20 +4,19 @@ const isDev = process.env.NODE_ENV === 'development'
 const config = {
   mode: process.env.NODE_ENV || 'production',
   target: 'web',
-  entry:{
+  entry: {
     app: path.join(__dirname, '../src/index.js')
   },
   output: {
     filename: 'bundle.[hash:8].js',
     path: path.join(__dirname, '../dist'),
-    publicPath: '/'
+    publicPath: '/assets'
   },
   resolve: {
-    extensions: ['.js','jsx','json']
+    extensions: ['.js', 'jsx', 'json']
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(js|jsx)$/,
         loader: 'eslint-loader',
         exclude: /node_modules/,
@@ -56,18 +55,17 @@ const config = {
             limit: 1024,
             name: 'resources/[name]-[hash:8].[ext]'
           }
-        }
-        ]
+        }]
       }
     ]
   },
   plugins: [
     new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: isDev ? '"development"' : '"production"'
-        }
-      })
-      
+      'process.env': {
+        NODE_ENV: isDev ? '"development"' : '"production"'
+      }
+    })
+
   ]
 }
 

@@ -39,12 +39,6 @@ let config = merge(baseConfig, {
       template: path.join(__dirname, '../index.html'),
       filename: 'index.html'
     })
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vendor'
-    // }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'runtime'
-    // })
   ]
 })
 

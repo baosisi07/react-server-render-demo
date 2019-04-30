@@ -5,7 +5,7 @@ class Index extends Component {
     render() {
         return (
             <div className="App" >
-                <h1>嗨，你好吗？还行</h1>
+                <h1>嗨，你好吗？</h1>
                 <img className="image" src={img} />
             </div>
         );
