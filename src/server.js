@@ -7,12 +7,14 @@ const ReactDOMServer = require("react-dom/server");
 const app = new Koa();
 const router = new Router();
 let serverEntry;
+let createApp;
 let template;
 let readyRender;
 
 const isProd = process.env.NODE_ENV === "production";
 if (isProd) {
     serverEntry = require("../dist/entry-server");
+    createApp = serverEntry.createApp;
     template = fs.readFileSync("./dist/index.html", "utf-8");
     // 静态资源映射到dist路径下
     app.use(Static(path.join(__dirname, "../dist")));
@@ -20,6 +22,7 @@ if (isProd) {
     // 非生产环境使用webpack - dev - middleware和webpack - hot - middleware进行热更新
     readyRender = require("./setup-dev-server")(app, (entry, htmlTemplate) => {
         serverEntry = entry;
+        createApp = serverEntry.createApp;
         template = htmlTemplate;
     });
 }
@@ -33,7 +36,8 @@ const render = async (ctx, next) => {
     const beforeHtml = templateArr[0]
     const afterHtml = templateArr[1]
     ctx.res.write(beforeHtml);
-    const stream = ReactDOMServer.renderToNodeStream(serverEntry);
+     let component = createApp(ctx, ctx.url);
+    const stream = ReactDOMServer.renderToNodeStream(component);
     stream.pipe(ctx.res, {
         end: false
     });

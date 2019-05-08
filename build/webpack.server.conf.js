@@ -15,20 +15,21 @@ let config = merge(baseConfig, {
     target: "node", // 指定node运行环境
     module: {
         rules: [{
-            test: /\.(scss|sass)$/,
-            use: ExtractPlugin.extract({
-                use: [
-                    'css-loader',
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    },
-                    'sass-loader'
-                ]
-            })
-        }]
+                test: /\.(scss|sass)$/,
+                use: ExtractPlugin.extract({
+                    use: [
+                        'css-loader',
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        },
+                        'sass-loader'
+                    ]
+                })
+            }
+        ]
     },
     plugins: [
         new webpack.DefinePlugin({

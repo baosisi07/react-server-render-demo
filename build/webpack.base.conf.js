@@ -13,7 +13,7 @@ const config = {
     publicPath: '/assets'
   },
   resolve: {
-    extensions: ['.js', 'jsx', 'json']
+    extensions: ['.js', '.jsx', '.json']
   },
   module: {
     rules: [{
