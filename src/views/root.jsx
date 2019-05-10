@@ -7,11 +7,11 @@ import {
     Redirect,
     NavLink
 } from "react-router-dom";
+import NotFound from './notFound'
 class Root extends Component {
     render() {
         return (
             <div className="App">
-                <div className="title">This is a react ssr demo</div>
                 <ul className="nav">
                     <li><NavLink to="/home">Home</NavLink></li>
                     <li><NavLink to="/page1">page1</NavLink></li>
@@ -26,6 +26,7 @@ class Root extends Component {
                             ))
                         }
                         <Redirect from="/" to="/home" exact />
+                        <Route component={NotFound} />
                     </Switch>
                 </div>
             </div>

@@ -38,7 +38,8 @@ let config = merge(baseConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new HTMLPlugin({
       template: path.join(__dirname, '../index.html'),
-      filename: 'index.html'
+      filename: 'index.html',
+      favicon: 'public/favicon.ico'
     })
   ]
 })

@@ -37,7 +37,8 @@ let config = merge(baseConfig, {
     new ExtractPlugin('css/styles.[hash:8].css'),
     new HTMLPlugin({
       template: path.join(__dirname, '../index.html'),
-      filename: 'index.html'
+      filename: 'index.html',
+      favicon: 'public/favicon.ico'
     })
   ]
 })
