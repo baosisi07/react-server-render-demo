@@ -3,6 +3,7 @@ const merge = require('webpack-merge')
 const ExtractPlugin = require('extract-text-webpack-plugin')
 const baseConfig = require('./webpack.base.conf')
 const HTMLPlugin = require('html-webpack-plugin')
+const LoadablePlugin = require("@loadable/webpack-plugin");
 let config = merge(baseConfig, {
   entry: {
     app: path.join(__dirname, '../src/index.js')
@@ -25,7 +26,8 @@ let config = merge(baseConfig, {
           'sass-loader'
         ]
       })
-    }]
+    }
+  ]
   },
   optimization: {
     splitChunks: {
@@ -37,8 +39,10 @@ let config = merge(baseConfig, {
     new ExtractPlugin('css/styles.[hash:8].css'),
     new HTMLPlugin({
       template: path.join(__dirname, '../index.html'),
-      filename: 'index.html',
-      favicon: 'public/favicon.ico'
+      filename: 'index.html'
+    }),
+    new LoadablePlugin({
+      filename: "client.json",
     })
   ]
 })

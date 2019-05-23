@@ -7,16 +7,17 @@ const clientConfig = require("../build/webpack.client.conf");
 const MFS = require("memory-fs");
 const serverConfig = require("../build/webpack.server.conf");
 
+const convert = require('koa-convert')
 module.exports = (app, callback) => {
-    let serverEntry;
-    let template;
+    let bundle;
+    let client;
     let resolve;
     const readyPromise = new Promise(r => {
         resolve = r
     });
     const update = () => {
-        if (serverEntry && template) {
-            callback(serverEntry, template);
+        if (bundle && client) {
+            callback(bundle, client);
             resolve();
         }
     }
@@ -34,7 +35,7 @@ module.exports = (app, callback) => {
         noInfo: true
     });
     // 使用webpack-dev-middleware中间件服务webpack打包后的资源文件
-    app.use(devMiddleware);
+    app.use(convert(devMiddleware));
     /* eslint-disable no-console */
     clientCompiler.hooks.done.tap('done', stats => {
         const info = stats.toJson();
@@ -47,11 +48,11 @@ module.exports = (app, callback) => {
             return;
         }
         // 从webpack-dev-middleware中间件存储的内存中读取打包后的inddex.html文件模板
-        template = readFile(devMiddleware.fileSystem, "index.html");
+        client = JSON.parse(readFile(devMiddleware.fileSystem, "client.json"));
         update();
     });
     // 热更新中间件
-    app.use(require("koa-webpack-hot-middleware")(clientCompiler));
+    app.use(convert(require("koa-webpack-hot-middleware")(clientCompiler)));
 
     // 监视服务端打包入口文件，有更改就更新
     const serverCompiler = webpack(serverConfig);
@@ -70,10 +71,7 @@ module.exports = (app, callback) => {
         }
 
         // 读取打包后的内容并编译模块
-        const bundle = readFile(mfs, "entry-server.js");
-        const m = new module.constructor();
-        m._compile(bundle, "entry-server.js");
-        serverEntry = m.exports;
+        bundle = JSON.parse(readFile(mfs, "server.json"));
         update();
     });
 

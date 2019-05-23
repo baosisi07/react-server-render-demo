@@ -7,15 +7,14 @@ import App from './app.jsx';
 const createApp = (context, url) => {
     const ServerApp = () => {
         return ( 
-            <StaticRouter context = {context} location = {url} >
+        <StaticRouter context = {context} location = {url}>
             <App />
-            </StaticRouter>
+        </StaticRouter>
         )
     }
     return <ServerApp />
 }
 
-module.exports = {
+export {
     createApp
 };
-

@@ -30,14 +30,29 @@ const config = {
       },
 
       {
-        test: /\.jsx$/,
-        loader: 'babel-loader'
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
+        test: /\.(js|jsx)$/,
+        use: [{
+            loader: "babel-loader",
+            options: {
+              babelrc: false,
+              presets: [
+                [
+                  "@babel/preset-env", // @loadable/babel-plugin处理后存在es6的语法
+                  {
+                    "modules": false
+                  }
+                ],
+                "@babel/preset-react"
+              ],
+              plugins: [
+                "@loadable/babel-plugin"
+              ]
+            }
+          }
+        ],
         exclude: /node_modules/
       },
+
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: [{
