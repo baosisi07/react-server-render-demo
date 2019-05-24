@@ -5,6 +5,7 @@ const baseConfig = require('./webpack.base.conf')
 const nodeExternals = require("webpack-node-externals");
 const ExtractPlugin = require('extract-text-webpack-plugin')
 const SSRServerPlugin = require("../plugin/webpack/server-plugin")
+// const LoadablePlugin = require('@loadable/webpack-plugin')
 let config = merge(baseConfig, {
     entry: {
         app: path.join(__dirname, '../src/server-index.js')
@@ -63,6 +64,9 @@ let config = merge(baseConfig, {
         new SSRServerPlugin({
             filename: "server.json"
         })
+        // new LoadablePlugin({
+        //     filename: "server.json"
+        // })
     ]
 })
 

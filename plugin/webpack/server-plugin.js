@@ -1,18 +1,22 @@
-const { isJS, onEmit, validateConfig } = require("./util");
+const {
+  isJS,
+  onEmit,
+  validateConfig
+} = require("./util");
 
 module.exports = class SSRServerPlugin {
   constructor(opts = {}) {
     this.options = Object.assign({
-      filename: "server-bundle.json",
+      filename: "server.json",
     }, opts);
   }
   apply(compiler) {
     validateConfig(compiler);
 
-    onEmit(compiler, "ssr-server-plugin" , (compilation, callback) => {
+    onEmit(compiler, "ssr-server-plugin", (compilation, callback) => {
       const stats = compilation.getStats().toJson();
 
-      if(Object.keys(stats.entrypoints).length > 1) {
+      if (Object.keys(stats.entrypoints).length > 1) {
         throw new Error(
           "Server-side bundle should have one single entry file. "
         );

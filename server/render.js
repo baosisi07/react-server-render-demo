@@ -16,7 +16,6 @@ class ServerRenderer {
             const serverEntry = this.serverEntry;
 
             const createApp = serverEntry.createApp;
-            // const router = serverEntry.router;
             const renderFun = () => {
                 // 存放组件内部路由相关属性，包括状态码，地址信息，重定向的url
                 let context = {};

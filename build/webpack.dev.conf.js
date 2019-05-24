@@ -20,20 +20,19 @@ let config = merge(baseConfig, {
   devtool: '#cheap-module-eval-source-map',
   module: {
     rules: [{
-        test: /\.(scss|sass)$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true
-            }
-          },
-          'sass-loader'
-        ]
-      }
-    ]
+      test: /\.(scss|sass)$/,
+      use: [
+        'style-loader',
+        'css-loader',
+        {
+          loader: 'postcss-loader',
+          options: {
+            sourceMap: true
+          }
+        },
+        'sass-loader'
+      ]
+    }]
   },
   devServer,
   plugins: [
